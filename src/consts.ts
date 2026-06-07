@@ -1,0 +1,13 @@
+export const SITE_TITLE = '枕剑观云';
+export const SITE_DESCRIPTION = '以笔为剑，以文观世；枕剑而眠，观云而行。';
+export const SITE_URL = 'https://zhenjiangguanyun.github.io';
+export const SITE_BASE = '/zhenjiangguanyun-blog';
+export const AUTHOR_NAME = '枕剑观云';
+export const AUTHOR_EMAIL = 'zhenjiangguanyun@example.com';
+export const AUTHOR_AVATAR = '/images/avatar.svg';
+export const GITHUB_USERNAME = 'zhenjiangguanyun';
+export const GISCUS_REPO = 'zhenjiangguanyun/zhenjiangguanyun-blog';
+export const GISCUS_REPO_ID = '';
+export const GISCUS_CATEGORY = 'Announcements';
+export const GISCUS_CATEGORY_ID = '';
+export const POSTS_PER_PAGE = 10;

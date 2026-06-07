@@ -1,0 +1,81 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { AUTHOR_NAME, AUTHOR_AVATAR, AUTHOR_EMAIL, GITHUB_USERNAME } from '@/consts';
+import { Mail, Github, BookOpen, Award, MapPin, Briefcase } from 'lucide-react';
+
+const timeline = [
+  { period: '2015 - 2017', title: '科技媒体资深编辑', description: '任职于某知名科技媒体，负责深度报道栏目，专注互联网产业分析与人物专访。' },
+  { period: '2017 - 2019', title: '硅谷驻地记者', description: '派驻硅谷，撰写中美科技观察系列文章，见证创业浪潮与科技巨头的兴衰。' },
+  { period: '2019 - 2021', title: '转型自由撰稿人', description: '离开传统媒体，开始运营个人公众号，探索独立写作的可能性与边界。' },
+  { period: '2021 - 至今', title: '独立写作者', description: '专注独立写作，出版散文集《代码与诗歌》，全网读者累计 50 万+。' },
+];
+
+const achievements = [
+  '出版散文集《代码与诗歌》（2022），入选当年豆瓣年度书单',
+  '出版旅行随笔《硅谷不再》（2023）',
+  '微信公众号「枕剑观云」累计原创文章 200+ 篇',
+  '多篇文章被《读者》《青年文摘》转载',
+  '2023 年获得「新周刊」中国年度新锐写手提名',
+];
+---
+
+<BaseLayout title="关于我" description={`了解${AUTHOR_NAME}的写作历程与思考`}>
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="text-center mb-16">
+      <div class="w-32 h-32 mx-auto mb-6 rounded-full overflow-hidden border-2 border-ink-gray-2 dark:border-ink-gray-2-dark">
+        <img src={AUTHOR_AVATAR} alt={AUTHOR_NAME} class="w-full h-full object-cover" />
+      </div>
+      <h1 class="font-serif-zh text-3xl md:text-4xl font-bold text-ink dark:text-ink-light mb-4">{AUTHOR_NAME}</h1>
+      <p class="text-ink-gray-3 mb-6 max-w-2xl mx-auto leading-relaxed">
+        独立撰稿人，现居杭州。曾任科技媒体资深编辑，后辞职成为自由写作者。文字风格兼具理性洞察与人文温度，擅长从日常细微处切入，探讨技术与人性的交汇点。作品散见于《南方周末》《三联生活周刊》《人物》等媒体。
+      </p>
+      <div class="flex items-center justify-center gap-6 text-ink-gray-3">
+        <span class="flex items-center gap-1"><MapPin class="w-4 h-4" /> 杭州</span>
+        <span class="flex items-center gap-1"><Briefcase class="w-4 h-4" /> 独立撰稿人</span>
+      </div>
+    </div>
+
+    <section class="mb-16">
+      <h2 class="font-serif-zh text-2xl font-bold text-ink dark:text-ink-light mb-8 flex items-center gap-2">
+        <BookOpen class="w-6 h-6 text-cinnabar" /> 经历
+      </h2>
+      <div class="relative border-l-2 border-ink-gray-2 dark:border-ink-gray-2-dark ml-3 space-y-8">
+        {timeline.map((item) => (
+          <div class="relative pl-8">
+            <div class="absolute -left-[9px] top-1 w-4 h-4 rounded-full bg-paper dark:bg-paper-dark border-2 border-cinnabar" />
+            <p class="text-sm text-cinnabar font-medium mb-1">{item.period}</p>
+            <h3 class="font-serif-zh text-lg font-bold text-ink dark:text-ink-light mb-2">{item.title}</h3>
+            <p class="text-ink-gray-3 leading-relaxed">{item.description}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section class="mb-16">
+      <h2 class="font-serif-zh text-2xl font-bold text-ink dark:text-ink-light mb-8 flex items-center gap-2">
+        <Award class="w-6 h-6 text-cinnabar" /> 成就
+      </h2>
+      <ul class="space-y-4">
+        {achievements.map((a) => (
+          <li class="flex items-start gap-3">
+            <span class="w-2 h-2 rounded-full bg-cinnabar mt-2 flex-shrink-0" />
+            <span class="text-ink dark:text-ink-light leading-relaxed">{a}</span>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <section class="text-center py-12 bg-ink-gray-1/30 dark:bg-ink-gray-1-dark/30 rounded-lg">
+      <h2 class="font-serif-zh text-2xl font-bold text-ink dark:text-ink-light mb-4">联系我</h2>
+      <p class="text-ink-gray-3 mb-6">欢迎交流写作、技术或任何有趣的话题</p>
+      <div class="flex items-center justify-center gap-4">
+        <a href={`mailto:${AUTHOR_EMAIL}`} class="inline-flex items-center gap-2 px-4 py-2 bg-cinnabar text-white rounded-md hover:bg-cinnabar-light transition-colors">
+          <Mail class="w-4 h-4" /> 发送邮件
+        </a>
+        <a href={`https://github.com/${GITHUB_USERNAME}`} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-4 py-2 border border-ink-gray-2 dark:border-ink-gray-2-dark text-ink dark:text-ink-light rounded-md hover:bg-ink-gray-1 dark:hover:bg-ink-gray-1-dark transition-colors">
+          <Github class="w-4 h-4" /> GitHub
+        </a>
+      </div>
+    </section>
+  </div>
+</BaseLayout>

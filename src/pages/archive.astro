@@ -1,0 +1,46 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+import { formatDate } from '@/utils/formatDate';
+import { Calendar } from 'lucide-react';
+
+const posts = await getCollection('posts', ({ data }) => !data.draft);
+const sortedPosts = posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const grouped: Record<string, typeof posts> = {};
+sortedPosts.forEach((post) => {
+  const year = post.data.pubDate.getFullYear().toString();
+  if (!grouped[year]) grouped[year] = [];
+  grouped[year].push(post);
+});
+---
+
+<BaseLayout title="归档" description="按时间浏览所有文章">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="text-center mb-12">
+      <h1 class="font-serif-zh text-3xl md:text-4xl font-bold text-ink dark:text-ink-light mb-4">归档</h1>
+      <p class="text-ink-gray-3">共 {posts.length} 篇文章</p>
+    </div>
+    <div class="space-y-12">
+      {Object.entries(grouped).map(([year, yearPosts]) => (
+        <section>
+          <h2 class="font-serif-zh text-2xl font-bold text-ink dark:text-ink-light mb-6 flex items-center gap-2">
+            <Calendar class="w-6 h-6 text-cinnabar" />
+            {year} <span class="text-sm font-normal text-ink-gray-3">({yearPosts.length} 篇)</span>
+          </h2>
+          <div class="space-y-4">
+            {yearPosts.map((post) => (
+              <a href={`/posts/${post.slug}`} class="group flex items-start gap-4 py-3 border-b border-ink-gray-1 dark:border-ink-gray-1-dark">
+                <span class="text-sm text-ink-gray-3 w-24 flex-shrink-0 pt-1">{formatDate(post.data.pubDate, { month: '2-digit', day: '2-digit' })}</span>
+                <div class="flex-1">
+                  <h3 class="font-medium text-ink dark:text-ink-light group-hover:text-cinnabar transition-colors">{post.data.title}</h3>
+                  <p class="text-sm text-ink-gray-3 mt-1 line-clamp-1">{post.data.description}</p>
+                </div>
+              </a>
+            ))}
+          </div>
+        </section>
+      ))}
+    </div>
+  </div>
+</BaseLayout>

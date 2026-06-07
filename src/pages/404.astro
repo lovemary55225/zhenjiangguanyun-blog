@@ -1,0 +1,23 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Button from '@/components/ui/Button';
+---
+
+<BaseLayout title="页面未找到">
+  <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-32 text-center">
+    <div class="mb-8">
+      <svg class="w-32 h-32 mx-auto text-ink-gray-2 dark:text-ink-gray-2-dark" viewBox="0 0 200 200" fill="none">
+        <path d="M40 100c0-33.137 26.863-60 60-60s60 26.863 60 60" stroke="currentColor" strokeWidth="2" strokeDasharray="8 4" opacity="0.5"/>
+        <circle cx="100" cy="100" r="45" stroke="currentColor" strokeWidth="1.5" opacity="0.3"/>
+        <path d="M70 85c5-5 15-5 20 0M110 85c5-5 15-5 20 0M85 115c5 8 25 8 30 0" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+      </svg>
+    </div>
+    <h1 class="font-serif-zh text-6xl font-bold text-ink-gray-3 mb-4">404</h1>
+    <p class="text-xl text-ink dark:text-ink-light mb-2">此页已随风而逝</p>
+    <p class="text-ink-gray-3 mb-8">你要找的页面不存在，或者已经被我藏起来了。</p>
+    <div class="flex items-center justify-center gap-4">
+      <Button href="/" variant="primary">回到首页</Button>
+      <Button href="/posts" variant="secondary">浏览文章</Button>
+    </div>
+  </div>
+</BaseLayout>

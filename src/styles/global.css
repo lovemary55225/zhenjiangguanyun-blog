@@ -1,0 +1,197 @@
+@import 'tailwindcss';
+@import '@chinese-fonts/lxgwwenkai/dist/LXGWWenKai-Regular/result.css';
+
+@layer base {
+  :root {
+    --color-paper: #F7F4ED;
+    --color-ink: #2C2C2C;
+    --color-cinnabar: #C23A30;
+    --color-indigo: #2E5C6E;
+    --color-gray-1: #E8E4DC;
+    --color-gray-2: #D4CFC4;
+    --color-gray-3: #9E9A8E;
+  }
+
+  html.dark {
+    --color-paper: #1A1A1A;
+    --color-ink: #E8E4DC;
+    --color-cinnabar: #D9534F;
+    --color-indigo: #5A9AA8;
+    --color-gray-1: #333333;
+    --color-gray-2: #444444;
+    --color-gray-3: #666666;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: 'LXGW WenKai', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Noto Serif SC', 'Songti SC', serif;
+    font-weight: 600;
+  }
+
+  code, pre {
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  ::selection {
+    background-color: var(--color-cinnabar);
+    color: white;
+  }
+
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: var(--color-gray-1);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-gray-3);
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-cinnabar);
+  }
+}
+
+@layer components {
+  .prose-custom {
+    max-width: none;
+    font-size: 1.125rem;
+    line-height: 1.75;
+    color: var(--color-ink);
+  }
+
+  html.dark .prose-custom {
+    color: var(--color-ink);
+  }
+
+  .prose-custom h1, .prose-custom h2, .prose-custom h3, .prose-custom h4 {
+    font-family: 'Noto Serif SC', 'Songti SC', serif;
+    font-weight: 600;
+    color: var(--color-ink);
+    margin-top: 2em;
+    margin-bottom: 0.75em;
+  }
+
+  .prose-custom h1 { font-size: 2.25rem; }
+  .prose-custom h2 { font-size: 1.75rem; }
+  .prose-custom h3 { font-size: 1.5rem; }
+  .prose-custom h4 { font-size: 1.25rem; }
+
+  .prose-custom p {
+    margin-bottom: 1.25em;
+    line-height: 1.8;
+  }
+
+  .prose-custom a {
+    color: var(--color-cinnabar);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .prose-custom a:hover {
+    text-decoration: underline;
+  }
+
+  .prose-custom blockquote {
+    border-left: 4px solid var(--color-cinnabar);
+    background-color: var(--color-gray-1);
+    padding: 0.75rem 1rem;
+    margin: 1.5em 0;
+    font-style: italic;
+  }
+
+  html.dark .prose-custom blockquote {
+    background-color: var(--color-gray-1);
+  }
+
+  .prose-custom code {
+    color: var(--color-cinnabar);
+    background-color: var(--color-gray-1);
+    padding: 0.15em 0.4em;
+    border-radius: 0.25rem;
+    font-size: 0.9em;
+  }
+
+  html.dark .prose-custom code {
+    background-color: var(--color-gray-1);
+  }
+
+  .prose-custom pre {
+    background-color: #1a1a1a;
+    color: #e8e4dc;
+    padding: 1.25rem;
+    border-radius: 0.5rem;
+    overflow-x: auto;
+    margin: 1.5em 0;
+  }
+
+  .prose-custom pre code {
+    color: inherit;
+    background-color: transparent;
+    padding: 0;
+    font-size: 0.875rem;
+  }
+
+  .prose-custom img {
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    margin: 1.5em 0;
+  }
+
+  .prose-custom ul, .prose-custom ol {
+    margin: 1.25em 0;
+    padding-left: 1.5em;
+  }
+
+  .prose-custom li {
+    margin: 0.5em 0;
+  }
+
+  .prose-custom table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5em 0;
+  }
+
+  .prose-custom th, .prose-custom td {
+    border: 1px solid var(--color-gray-2);
+    padding: 0.5rem;
+  }
+
+  .prose-custom th {
+    background-color: var(--color-gray-1);
+    font-weight: 600;
+  }
+
+  .prose-custom hr {
+    border: none;
+    border-top: 1px solid var(--color-gray-2);
+    margin: 2em 0;
+  }
+
+  .prose-custom strong {
+    font-weight: 700;
+    color: var(--color-ink);
+  }
+
+  .ink-border {
+    border-color: var(--color-gray-2);
+  }
+
+  .ink-text-secondary {
+    color: var(--color-gray-3);
+  }
+}

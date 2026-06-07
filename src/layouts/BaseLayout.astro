@@ -1,0 +1,61 @@
+---
+import '@/styles/global.css';
+import LayoutWrapper from '@/components/LayoutWrapper';
+import Footer from '@/components/layout/Footer';
+import { SITE_TITLE, SITE_DESCRIPTION, SITE_URL, SITE_BASE, AUTHOR_NAME } from '@/consts';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  type?: string;
+}
+
+const { title, description, image, type = 'website' } = Astro.props;
+const pageTitle = title ? `${title} | ${SITE_TITLE}` : SITE_TITLE;
+const pageDesc = description || SITE_DESCRIPTION;
+const ogImage = image || `${SITE_URL}${SITE_BASE}/images/og-default.jpg`;
+---
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={pageDesc} />
+    <meta name="author" content={AUTHOR_NAME} />
+    <link rel="icon" type="image/svg+xml" href={`${SITE_BASE}/favicon.svg`} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={pageDesc} />
+    <meta property="og:type" content={type} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:url" content={Astro.url} />
+    <meta property="og:site_name" content={SITE_TITLE} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={pageDesc} />
+    <meta name="twitter:image" content={ogImage} />
+    <title>{pageTitle}</title>
+    <script is:inline>
+      const theme = (() => {
+        if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) return localStorage.getItem('theme');
+        if (window.matchMedia('(prefers-color-scheme: dark)').matches) return 'dark';
+        return 'light';
+      })();
+      if (theme === 'dark') document.documentElement.classList.add('dark');
+      else document.documentElement.classList.remove('dark');
+    </script>
+    <link rel="alternate" type="application/rss+xml" title={SITE_TITLE} href={`${SITE_BASE}/rss.xml`} />
+  </head>
+  <body class="min-h-screen flex flex-col">
+    <LayoutWrapper client:load>
+      <main class="flex-1 pt-16">
+        <slot />
+      </main>
+    </LayoutWrapper>
+    <Footer />
+  </body>
+</html>

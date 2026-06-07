@@ -1,0 +1,24 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PostList from '@/components/blog/PostList';
+import Pagination from '@/components/blog/Pagination';
+import { getCollection } from 'astro:content';
+import { POSTS_PER_PAGE } from '@/consts';
+
+const allPosts = await getCollection('posts', ({ data }) => !data.draft);
+const sortedPosts = allPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const currentPage = 1;
+const totalPages = Math.ceil(sortedPosts.length / POSTS_PER_PAGE);
+const posts = sortedPosts.slice(0, POSTS_PER_PAGE);
+---
+
+<BaseLayout title="文章" description="枕剑观云的所有文章">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="text-center mb-12">
+      <h1 class="font-serif-zh text-3xl md:text-4xl font-bold text-ink dark:text-ink-light mb-4">文章</h1>
+      <p class="text-ink-gray-3">共 {allPosts.length} 篇文章</p>
+    </div>
+    <PostList posts={posts} />
+    <Pagination currentPage={currentPage} totalPages={totalPages} baseUrl="/posts" />
+  </div>
+</BaseLayout>

@@ -1,0 +1,80 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import TableOfContents from '@/components/blog/TableOfContents';
+import Tag from '@/components/ui/Tag';
+import { formatDate } from '@/utils/formatDate';
+import { Calendar, Clock, ArrowLeft, ArrowRight } from 'lucide-react';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  post: CollectionEntry<'posts'>;
+  prevPost?: CollectionEntry<'posts'>;
+  nextPost?: CollectionEntry<'posts'>;
+  headings: { depth: number; slug: string; text: string }[];
+}
+
+const { post, prevPost, nextPost, headings } = Astro.props;
+const { title, description, pubDate, updatedDate, tags, cover } = post.data;
+---
+
+<BaseLayout title={title} description={description} image={cover} type="article">
+  <article class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="grid lg:grid-cols-[1fr_280px] gap-12">
+      <div>
+        <header class="mb-10">
+          {cover && <div class="aspect-[16/9] rounded-lg overflow-hidden mb-8"><img src={cover} alt={title} class="w-full h-full object-cover" /></div>}
+          <h1 class="font-serif-zh text-3xl md:text-4xl font-bold text-ink dark:text-ink-light mb-4">{title}</h1>
+          <div class="flex flex-wrap items-center gap-4 text-sm text-ink-gray-3">
+            <span class="flex items-center gap-1"><Calendar class="w-4 h-4" />{formatDate(pubDate)}</span>
+            {updatedDate && <span class="flex items-center gap-1"><Clock class="w-4 h-4" />更新于 {formatDate(updatedDate)}</span>}
+          </div>
+          {tags && tags.length > 0 && (
+            <div class="flex flex-wrap gap-2 mt-4">
+              {tags.map((tag) => <Tag name={tag} href={`/tags/${tag}`} size="sm" />)}
+            </div>
+          )}
+        </header>
+        <div class="prose-custom">
+          <slot />
+        </div>
+        <nav class="mt-16 pt-8 border-t border-ink-gray-2 dark:border-ink-gray-2-dark">
+          <div class="grid md:grid-cols-2 gap-6">
+            {prevPost ? (
+              <a href={`/posts/${prevPost.slug}`} class="group">
+                <span class="text-sm text-ink-gray-3 flex items-center gap-1 mb-2"><ArrowLeft class="w-4 h-4" /> 上一篇</span>
+                <span class="font-medium text-ink dark:text-ink-light group-hover:text-cinnabar transition-colors line-clamp-2">{prevPost.data.title}</span>
+              </a>
+            ) : <div />}
+            {nextPost ? (
+              <a href={`/posts/${nextPost.slug}`} class="group md:text-right">
+                <span class="text-sm text-ink-gray-3 flex items-center justify-end gap-1 mb-2">下一篇 <ArrowRight class="w-4 h-4" /></span>
+                <span class="font-medium text-ink dark:text-ink-light group-hover:text-cinnabar transition-colors line-clamp-2">{nextPost.data.title}</span>
+              </a>
+            ) : <div />}
+          </div>
+        </nav>
+        <div class="mt-16">
+          <h3 class="font-serif-zh text-xl font-bold text-ink dark:text-ink-light mb-6">评论</h3>
+          <script src="https://giscus.app/client.js"
+            data-repo="zhenjiangguanyun/zhenjiangguanyun-blog"
+            data-repo-id=""
+            data-category="Announcements"
+            data-category-id=""
+            data-mapping="pathname"
+            data-strict="0"
+            data-reactions-enabled="1"
+            data-emit-metadata="0"
+            data-input-position="bottom"
+            data-theme="preferred_color_scheme"
+            data-lang="zh-CN"
+            crossorigin="anonymous"
+            async>
+          </script>
+        </div>
+      </div>
+      <aside class="hidden lg:block">
+        <TableOfContents headings={headings} client:load />
+      </aside>
+    </div>
+  </article>
+</BaseLayout>

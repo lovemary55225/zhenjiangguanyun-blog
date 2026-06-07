@@ -1,0 +1,88 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PostList from '@/components/blog/PostList';
+import Tag from '@/components/ui/Tag';
+import { getCollection } from 'astro:content';
+import { formatDate } from '@/utils/formatDate';
+import { SITE_DESCRIPTION, AUTHOR_NAME, AUTHOR_AVATAR } from '@/consts';
+
+const allPosts = await getCollection('posts', ({ data }) => !data.draft);
+const sortedPosts = allPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const recentPosts = sortedPosts.slice(0, 6);
+const featuredPosts = sortedPosts.filter((post) => post.data.featured).slice(0, 3);
+
+const tagCount: Record<string, number> = {};
+allPosts.forEach((post) => {
+  post.data.tags.forEach((tag) => {
+    tagCount[tag] = (tagCount[tag] || 0) + 1;
+  });
+});
+const popularTags = Object.entries(tagCount).sort((a, b) => b[1] - a[1]).slice(0, 8).map(([name, count]) => ({ name, count }));
+---
+
+<BaseLayout description={SITE_DESCRIPTION}>
+  <section class="relative py-20 md:py-32 overflow-hidden">
+    <div class="absolute inset-0 opacity-5 pointer-events-none">
+      <svg class="w-full h-full" viewBox="0 0 1200 600" preserveAspectRatio="xMidYMid slice">
+        <ellipse cx="200" cy="150" rx="300" ry="200" fill="currentColor" class="text-ink dark:text-ink-light" />
+        <ellipse cx="900" cy="400" rx="400" ry="250" fill="currentColor" class="text-ink dark:text-ink-light" />
+      </svg>
+    </div>
+    <div class="relative max-w-4xl mx-auto px-4 text-center">
+      <div class="mb-8">
+        <div class="w-24 h-24 mx-auto mb-6 rounded-full overflow-hidden border-2 border-ink-gray-2 dark:border-ink-gray-2-dark">
+          <img src={AUTHOR_AVATAR} alt={AUTHOR_NAME} class="w-full h-full object-cover" />
+        </div>
+        <h1 class="font-serif-zh text-4xl md:text-5xl font-bold text-ink dark:text-ink-light mb-4">{AUTHOR_NAME}</h1>
+        <p class="text-lg text-ink-gray-3 max-w-2xl mx-auto leading-relaxed">{SITE_DESCRIPTION}</p>
+      </div>
+      <div class="flex flex-wrap justify-center gap-3 text-sm text-ink-gray-3">
+        <span>独立撰稿人</span><span class="text-ink-gray-2">|</span>
+        <span>科技人文观察者</span><span class="text-ink-gray-2">|</span>
+        <span>现居杭州</span>
+      </div>
+    </div>
+  </section>
+
+  {featuredPosts.length > 0 && (
+    <section class="py-16 bg-ink-gray-1/30 dark:bg-ink-gray-1-dark/30">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="font-serif-zh text-2xl font-bold text-ink dark:text-ink-light mb-8 text-center">精选文章</h2>
+        <div class="grid md:grid-cols-3 gap-6">
+          {featuredPosts.map((post) => (
+            <a href={`/posts/${post.slug}`} class="group block">
+              <article class="bg-paper dark:bg-paper-dark border border-ink-gray-2 dark:border-ink-gray-2-dark rounded-lg overflow-hidden h-full transition-all duration-300 hover:shadow-md hover:border-cinnabar/30">
+                {post.data.cover && <div class="aspect-[16/9] overflow-hidden"><img src={post.data.cover} alt={post.data.title} class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy" /></div>}
+                <div class="p-5">
+                  <p class="text-sm text-ink-gray-3 mb-2">{formatDate(post.data.pubDate)}</p>
+                  <h3 class="font-serif-zh text-lg font-bold text-ink dark:text-ink-light group-hover:text-cinnabar transition-colors line-clamp-2">{post.data.title}</h3>
+                </div>
+              </article>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <section class="py-16">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between mb-8">
+        <h2 class="font-serif-zh text-2xl font-bold text-ink dark:text-ink-light">最新文章</h2>
+        <a href="/posts" class="text-cinnabar hover:text-cinnabar-light text-sm transition-colors">查看全部 →</a>
+      </div>
+      <PostList posts={recentPosts} />
+    </div>
+  </section>
+
+  {popularTags.length > 0 && (
+    <section class="py-16 bg-ink-gray-1/30 dark:bg-ink-gray-1-dark/30">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h2 class="font-serif-zh text-2xl font-bold text-ink dark:text-ink-light mb-8">热门标签</h2>
+        <div class="flex flex-wrap justify-center gap-3">
+          {popularTags.map((tag) => <Tag name={tag.name} count={tag.count} href={`/tags/${tag.name}`} size="md" />)}
+        </div>
+      </div>
+    </section>
+  )}
+</BaseLayout>
