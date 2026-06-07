@@ -5,8 +5,7 @@ import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
-  site: 'https://zhenjiangguanyun.github.io',
-  base: '/zhenjiangguanyun-blog',
+  site: 'https://zhenjiangguanyun-blog.vercel.app',
   integrations: [react(), mdx(), sitemap()],
   vite: {
     plugins: [tailwindcss()],
